@@ -1,33 +1,41 @@
 #include <stdio.h>
 
-int fact_iter(int n, int count, int max);
-void printfact(void);
+long long fact_iter(long long n, int count, int max);
+int mountarray(int *arr, int count);
+void printfact(int count, int man, int *arr);
 int main()
 {
-    printfact();
+    int arr[13], max;
+    max = mountarray(arr,0);
+    printfact(0,max,arr);
     return 0;
 }
-int fact_iter(int n, int count, int max)
+long long fact_iter(long long n, int count, int max)
 {
     if(count > max){
 	return n;
     }
-    int pro = n*count;
+    long long n2 = n*count;
     count++;
-    fact_iter(pro,count,max);
+    fact_iter(n2,count,max);
 }
-void printfact(void)
+void printfact(int count, int max, int *arr)
 {
-    int arr[13], max, num, i;
-    for(i=0; i<13; i++){
-	max = i;
-	scanf("%d",&num);
-	if(num == -1 || num > 12){
-	    break;
-	}
-	arr[i] = num;
+    printf("%lld\n",fact_iter(1,1, arr[count]));
+    count++;
+    if(count<max){
+	printfact(count,max,arr);
     }
-    for(i=0; i<max; i++){
-	printf("%d\n",fact_iter(1,1, arr[i]));
+}
+int mountarray(int *arr, int count)
+{
+    int num;
+    int max = count;
+    scanf("%d",&num);
+    if(num == -1 || num > 12){
+	return max;
     }
+    arr[count] = num;
+    count++;
+    mountarray(arr,count); 
 }

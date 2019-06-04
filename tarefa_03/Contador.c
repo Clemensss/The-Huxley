@@ -1,33 +1,35 @@
 #include <stdio.h>
 #define MAX 15
 
-int contador(void);
-void arraio(int arr[]);
+int contador(char* str);
+int countiter(int num, char* str, int count, int max);
 int main()
 {
-    printf("%d\n",contador());
+    char *str;
+    str=NULL;
+    contador(str);
     return 0;
 }
-int contador(void)
+int contador(char* str)
 {
-    int i=0;
-    int count=0;
     /*Uses the function getline found in the gnu
     compiler, which takes a string from stream and stores it
     into a buffer*/
-    char *str=NULL, conv;
     size_t bufasfuk = 0;
-    getline(&str, &bufasfuk,stdin); 
-	while(1){
-	conv = str[i];
-	i++;
-	if((conv-48)==0 || ((conv-48)%2)==0){
-	    count++;
-	}
-	if(str[i]=='\0'){
-	    break;
-	}	
-    }
-    return count;
+    int res = getline(&str, &bufasfuk,stdin); 
+    printf("%d\n", countiter(0, str, 0, res));
+    return res;
 }
-    
+int countiter(int num, char* str, int count, int max)
+{
+    int conv = str[count];
+    count++;
+    if(count > max){
+	return num;
+    }
+    if((conv-48)==0 || ((conv-48)%2)==0){
+	num++;
+	countiter(num, str, count, max);
+    }
+    countiter(num, str, count, max);
+}   

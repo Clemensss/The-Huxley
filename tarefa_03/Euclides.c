@@ -1,12 +1,12 @@
 #include <stdio.h>
 
 int itereu(int a, int d);
-void printeu(int n);
+void printeu(int n, int count);
 int main()
 {	
     int num;
     scanf("%d", &num);
-    printeu(num);
+    printeu(num,0);
     return 0;
 }
 int itereu(int a, int d)
@@ -19,11 +19,13 @@ int itereu(int a, int d)
     }
     itereu(d, R);
 }
-void printeu(int n)
+void printeu(int n, int count)
 { 
     int a,d,i;
-    for(i=0;i<n;i++){ 
-	scanf("%d%d",&a,&d);
-	printf("MDC(%d,%d) = %d\n",a,d,itereu(a,d));
+    scanf("%d%d",&a,&d);
+    printf("MDC(%d,%d) = %d\n",a,d,itereu(a,d));
+    count++;
+    if(count<n){
+	printeu(n,count);
     }
 }

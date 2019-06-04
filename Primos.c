@@ -1,38 +1,49 @@
 #include <stdio.h>
 
-
-int primoiter(int x);
-void printfact(void);
+int primoiter(int x,int count);
+void printfact(int count, int max, int *arr);
+int primocheck(int x);
+int mountarray(int *arr, int count);
 int main()
 {
-    printfact();
+    int arr[50], max;
+    max = mountarray(arr,0);
+    printfact(0,max,arr);
     return 0;
 }
-void printfact(void)
+void printfact(int count, int max, int *arr)
 {
-    int arr[13], max, num, i;
-    for(i=0; i<13; i++){
-	max = i;
-	scanf("%d",&num);
-	if(num == -1){
-	    break;
-	}
-	arr[i] = num;
-    }
-    for(i=0; i<max; i++){
-	printf("%d\n", primoiter(arr[i]));
+    printf("%d\n",primocheck(arr[count]));
+    count++;
+    if(count<max){
+	printfact(count,max,arr);
     }
 }
-int primoiter(int x)
+int mountarray(int *arr, int count)
+{
+    int num;
+    int max = count;
+    scanf("%d",&num);
+    if(num == -1){
+	return max;
+    }
+    arr[count] = num;
+    count++;
+    mountarray(arr,count);
+}
+
+int primocheck(int x)
+{
+    return primoiter(x,0);
+}
+int primoiter(int x,int count)
 {
     int arr[4]={2,3,5,7};
-    int i;
-    for(i=0;i<4;i++){
-	if(arr[i]==x){
-	    return 1;
-	}else if(x%arr[i]==0 || x==1){
-	    return 0;
-	}	 
-     }
-     return 1;
+    if(arr[count]==x || count==3){
+	return 1;
+    }else if(x%arr[count]==0 || x==1 ){
+	return 0;
+    }	 
+    count++;
+    return primoiter(x, count);
 }

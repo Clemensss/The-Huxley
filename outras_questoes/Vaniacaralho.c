@@ -3,7 +3,7 @@
 
 int check(int num);
 double pow(double x, double y);
-int vaniasuavadia(int num, int count);
+int vania(int num, int count);
 int iter(int num);
 int main()
 {
@@ -13,22 +13,24 @@ int main()
 
     return 0;
 }
-int vaniasuavadia(int num, int count)
+int vania(int num, int count)
 {
-    int c = count;
-    if(num/10 <= 10){
+    int temp;
+    int past = pow(10.0,(double)(count-1))-1;
+    printf("past %d\n", past);
+    if(count == 2){
 	return (count*(num-9)+9);
     }
-    int temp = num/(pow(10.0, (double)(count-1)));
-    temp = temp*(pow(10.0, (double)(count-1)));
-    printf("temp %d count %d\n", temp, count);
-    printf("numero1 %d\n",vaniasuavadia(num-temp,(count--))); 
-    return (c*((num)-vaniasuavadia(num-temp,(count--))))+(temp-1);
+    temp = count*(num-past);
+    count--;
+    return temp+vania(past, count);
+    
+    
 }
 int iter(int num)
 {
     int count = check(num);
-    return vaniasuavadia(num, count);
+    return vania(num, count);
 }
 int check(int num)
 {

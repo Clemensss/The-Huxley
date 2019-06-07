@@ -7,23 +7,26 @@ long long vania(long long num, int count);
 long long iter(long long num);
 int main()
 {
-    int a;
-    scanf("%d", &a);
-    printf("%d\n",iter(a));
+    long long a;
+    scanf("%lld", &a);
+    printf("%lld\n",iter(a));
 
     return 0;
 }
-long long vania(long long num, int count)
+long long vania(long long num, int check)
 {
-    long long temp;
-    long long past = pow(10.0,(double)(count-1))-1;
-    printf("past %d\n", past);
-    if(count == 2){
-	return (count*(num-9)+9);
+    long long temp = 0;
+    long long var = 1;
+    int count=1;
+    long long thing = pow(10.0,(double)(check-1))-1;
+    while(count<check){
+	long long past = pow(10.0,(double)(count))-1;
+	long long past2 = pow(10.0,(double)(count-1))-1;
+	var = temp;
+	temp = count*(past-past2) + var;
+	count++;
     }
-    temp = count*(num-past);
-    count--;
-    return temp+vania(past, count);
+    return check*(num-thing) + temp;
 }
 long long iter(long long num)
 {

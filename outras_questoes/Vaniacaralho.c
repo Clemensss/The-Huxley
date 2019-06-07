@@ -3,8 +3,8 @@
 
 int check(int num);
 double pow(double x, double y);
-int vania(int num, int count);
-int iter(int num);
+long long vania(long long num, int count);
+long long iter(long long num);
 int main()
 {
     int a;
@@ -13,10 +13,10 @@ int main()
 
     return 0;
 }
-int vania(int num, int count)
+long long vania(long long num, int count)
 {
-    int temp;
-    int past = pow(10.0,(double)(count-1))-1;
+    long long temp;
+    long long past = pow(10.0,(double)(count-1))-1;
     printf("past %d\n", past);
     if(count == 2){
 	return (count*(num-9)+9);
@@ -24,10 +24,8 @@ int vania(int num, int count)
     temp = count*(num-past);
     count--;
     return temp+vania(past, count);
-    
-    
 }
-int iter(int num)
+long long iter(long long num)
 {
     int count = check(num);
     return vania(num, count);

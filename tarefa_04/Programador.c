@@ -1,9 +1,8 @@
 #include <stdio.h>
-#include <math.h>
 
 void saber(int a, int b, int *c, int *d);
 void doloop(void);
-void loop(int count, int max,int *oldb, int c, int d, int *dia);
+void loop(int count, int *oldb, int c, int d, int *dia);
 void printdia(int dia);
 
 int main()
@@ -13,8 +12,8 @@ int main()
 }
 void doloop(void)
 {
-    int a=0, b=0, c=0;
-    loop(0, 7, &b, 0, 0, &c);
+    int b=0, c=0;
+    loop(0, &b, 0, 0, &c);
 }
 void saber(int a, int b, int *c, int *d)
 {
@@ -24,27 +23,27 @@ void saber(int a, int b, int *c, int *d)
 
     if(b >= 100){
 	(*d)++;
-   }
+    }
 }
-void loop(int count, int max,int *oldb, int c,
+void loop(int count, int *oldb, int c,
 	  int d, int *dia)
 {
-    if(count >  max){
+    if(count > 7){
 	printf("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE PROGRAMAS: %d\n",c);
 	printf("QUANTIDADE DE DIAS QUE ATINGIU MEDIA DE LINHAS: %d\n",d);
-	printdia((*dia));
+	printdia(*dia);
 	return;
     }
 
     int a, b;
     scanf("%d %d", &a, &b);
 
-    if(b>(*oldb)){
+    if(b>=(*oldb)){
 	*dia = count;	
     }
 
     saber(a,b,&c,&d);
-    loop(count+1, 7, &b, c, d, dia);
+    loop(count+1, &b, c, d, dia);
 }
 void printdia(int dia)
 {

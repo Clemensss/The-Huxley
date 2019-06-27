@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 void loop(void);
-void arrayfazer(int *arr, int count);
+int arrayfazer(int *arr, int count);
 void printfarr(int *arr, int *num, int n, int count);
 
 int main()
@@ -15,21 +15,23 @@ void loop(void)
 {
     int arr[1000], num, n;
 
-    arrayfazer(arr, 0);
+    if(!arrayfazer(arr, 0)) return;
 
     scanf("%d", &n);
     printfarr(arr, &num, n, 0);
+    loop();
 
-    int x;
-    scanf("%d", &x);
-    if(x == -1) return;
 }
 
-void arrayfazer(int *arr, int count)
+int arrayfazer(int *arr, int count)
 {
-    if(count == 1000) return;
+    if(count == 1000) return 1;
+
     int temp;
     scanf("%d", &temp);
+
+    if(x == -1 && count == 0) return 0;
+
     arr[count]=temp;
 
     arrayfazer(arr, count+1);

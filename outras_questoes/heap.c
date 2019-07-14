@@ -8,9 +8,9 @@ int stringparse(char *s);
 void makearr(int *arr, char *s, int count);
 
 void swap(int *elone, int *eltwo);
-void heapify(int *arr, int len, int din);
+void heapify(int *arr, int len);
 int heapcond(int *arr, int n, int len);
-int pop(int *arr, int *len, int din);
+int pop(int *arr, int *len);
 void heapsort(int *arr, int len);
 
 int main()
@@ -37,26 +37,26 @@ void heapsort(int *arr, int len)
     
     int i;
     for(i=0; temp>0; i++){
-	pop(arr, &temp, 0);
+	pop(arr, &temp);
 	//printarr(arr, temp, 1);
     }
 }
 
-int pop(int *arr, int *len, int din)
+int pop(int *arr, int *len)
 {
-    int temp = arr[din];
-    swap(&arr[din], &arr[*len]);
+    int temp = arr[0];
+    swap(&arr[0], &arr[*len]);
     (*len)--;
-    heapify(arr, *len, din);
+    heapify(arr, *len);
     return temp;
 }
 
-void heapify(int *arr, int len, int din)
+void heapify(int *arr, int len)
 {
     int i, count = 0;
     while(1){
 
-	for(i=din+1; i<len; i++){
+	for(i=1; i<len; i++){
 	    count += heapcond(arr, i, len);
 	}
 

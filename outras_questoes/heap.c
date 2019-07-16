@@ -1,202 +1,140 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX_HEAP 100
 
-char* inputread(void);
-void printes(int *arr, int len);
-void printarr(int *arr, int len, int opcao);
-int stringparse(char *s);
-void makearr(int *arr, char *s, int count);
+typedef struct {
+    int size;
+    int data[MAX_HEAP];
+} heap;
 
-void swap(int *elone, int *eltwo);
-void heapify(int *arr, int len);
-int heapcond(int *arr, int n, int len);
-int pop(int *arr, int *len);
-void heapsort(int *arr, int len);
+void print_heap(heap *arr);
+void makeheap(heap *heap);
+
+void swap(int *one, int *two);
+void max_heapify(heap *heap);
+void heapify(heap *heap, int parent);
+void heapsort(heap *arr);
 
 int main()
 {
-    char *s;
-    int len;
-    s = inputread();
-    len = stringparse(s);
+    heap merda;
 
-    int arr[len];
-    makearr(arr, s, len);
+    makeheap(&merda);
 
-    printes(arr, len);
-    heapsort(arr, len);
-    printes(arr, len);
+    heapsort(&merda);
+
+    printf("Resultado Final: %d ", merda.data[1]);
+    print_heap(&merda);
+    printf("\n");
+
     return 0;
 }
 
-//-------------------------- Coisas de Heap ---------------
-
-void heapsort(int *arr, int len)
+void makeheap(heap *heap)
 {
-    int temp = len-1;    
-    
-    int i;
-    for(i=0; temp>0; i++){
-	pop(arr, &temp);
-	//printarr(arr, temp, 1);
-    }
-}
+    int n, i = 0;
 
-int pop(int *arr, int *len)
-{
-    int temp = arr[0];
-    swap(&arr[0], &arr[*len]);
-    (*len)--;
-    heapify(arr, *len);
-    return temp;
-}
-
-void heapify(int *arr, int len)
-{
-    int i, count = 0;
-    while(1){
-
-	for(i=1; i<len; i++){
-	    count += heapcond(arr, i, len);
-	}
-
-	if(count == 0) break;
-	else count = 0;
-    }
-}
-
-int heapcond(int *arr, int n, int len)
-{
-    int count = 0;
-
-    int n2 = n << 1;
-    int n1 = n2 - 1;
-    n -= 1;
-    if(n1 > len || n2 > len) return 0;
-     
-    while(1){
-
-	if(arr[n] < arr[n1]){
-
-	    swap(&arr[n], &arr[n1]);
-	    count++;
-
-	}else if(arr[n] < arr[n2]){
-
-	    swap(&arr[n], &arr[n2]);
-	    count++;
-	}
-
-	else break;
-	
-    }
-
-    return count;
-}
-
-void swap(int *elone, int *eltwo)
-{
-    int temp;
-    temp = *eltwo;
-    *eltwo = *elone;
-    *elone = temp;
-}
-
-//----------------Coisas inuteis--------------------
-
-void printarr(int *arr, int len, int opcao)
-{   
-    int i;
-    switch(opcao){
-
-	case 0:
-
-	    printf("Estado inicial: %d ", arr[0]);
-
-	    printes(arr, len);
-
-	    break;
-
-	case 1:
-
-	    printf("Estado Atual da Heap: %d ", arr[0]);
-
-	    printes(arr, len+1);
-	    if(len > 0)
-		printf("Maior elemento neste passo: %d\n", arr[0]);
-
-
-	    break;
-	case 3:
-
-	    printf("Resultado Final: %d ", arr[0]);
-
-	    printes(arr, len);
-
-	    break;
-    }
-    
-}
-
-void printes(int *arr, int len)
-{
-    int i;
-    for(i=1; i<len; i++){
-	printf("%d ", arr[i]);
+    while(scanf("%d", &n) != EOF) {
+	i++;
+	heap->data[i] = n;
     }    
+
+    heap->size = i;
+}
+
+void heapsort(heap *heap)
+{
+    int *len = &heap->size; 
+    int original_len = *len;
+
+    printf("Estado inicial: %d ", heap->data[1]);
+    print_heap(heap);
     printf("\n");
 
-}
+    max_heapify(heap);
 
-void makearr(int *arr, char *s, int count)
-{
-    char *cp;
-    char *end;
-    long num;
 
-    int i;
-    for(i=0; i<count; i++){
+    printf("Estado Atual da Heap: %d ", heap->data[1]);
+    print_heap(heap);
+    printf("\n");
+    printf("Maior elemento neste passo: %d\n", heap->data[1]);
 
-        num = strtol(s, &end, 10);
-	arr[i] = (int)(num);
+
+    while(*len >= 2){
+
+	swap(&heap->data[1], &heap->data[(*len)]);
+
+	(*len)--;
 	
-	printf("num %d\n", num);
-        s = end;
+	max_heapify(heap);
 
+	printf("Estado Atual da Heap: %d", heap->data[1]);
+	if((*len) > 1){
+	    printf(" ");
+	    print_heap(heap);
+	    printf("\n");
+	    printf("Maior elemento neste passo: %d", heap->data[1]);
+	} 
+	printf("\n");
+	    
     }
 
+    heap->size = original_len;
 }
 
-int stringparse(char *s)
+void max_heapify(heap *heap)
 {
-    int count = 0;
-    char *end;
-    char *sus;
+    int i;
+    int len = heap->size; 
+    for(i=1; i<=len; i++)
+	  heapify(heap, i);
+}
+void heapify(heap *heap, int parent)
+{
+    int len = heap->size; 
+
+    int large_index = parent;
     
-    sus = s;
+    int left_n  = parent << 1;
+    int right_n = left_n + 1;
 
-    long i;
+    if(left_n <= len && heap->data[parent] < heap->data[left_n]){
 
-    for (i = strtol(sus, &end, 10);
-         sus != end;
-         i = strtol(sus, &end, 10)){
-
-        sus = end;
-
-	count++;
+	large_index = left_n;    
     }
-    return count;
+
+    if(right_n <= len &&  heap->data[large_index] < heap->data[right_n]){
+
+	large_index = right_n;    
+    }
+
+    if(heap->data[large_index] != heap->data[parent]){
+
+	swap(&heap->data[parent], &heap->data[large_index]);
+	//max_heapify(heap, large_index);
+    }
+	
 }
 
+void swap(int *one, int *two)
+{
+    int temp;
+    temp = *two;
+    *two = *one;
+    *one = temp;
+}
 
-char* inputread(void)
+void print_heap(heap *heap)
 {
 
-    char *lineptr;                                  
-    size_t bufasfuk = 0;
+    int len = heap->size;
 
-    lineptr = NULL;
-    getline(&lineptr, &bufasfuk,stdin);
+    int i = 2;
 
-    return lineptr;
+    while(i<len){
+	printf("| %d ", heap->data[i]);
+	i++;
+    }    
+    printf("| %d", heap->data[(len)]);
+
 }

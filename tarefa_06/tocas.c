@@ -26,10 +26,6 @@ int main()
 void tocas(int *arr, int count, int max,
 	   int liga, int index, int num_tocas)
 {
-    if(count > max+2){
-	printf("%d\n", num_tocas);
-	return;
-    }
 
     liga = arr[index];
 
@@ -41,8 +37,8 @@ void tocas(int *arr, int count, int max,
 	int temp = search(arr, 0, max);
 
 	if(temp == -1){
-
-
+        printf("%d\n", num_tocas);
+	    return;
 	}else{
 
 	    index = temp;

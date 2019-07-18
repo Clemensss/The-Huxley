@@ -2,7 +2,7 @@
 
 void make_arr(int count, int max, int *arr);
 
-void tocas(int count, int *arr, int size,
+void tocas(int count, int *arr, int size, int index,
 	   int var1, int var, int num_tocas);
 
 int main()
@@ -15,13 +15,13 @@ int main()
     
     make_arr(0, size, arr);
 
-    tocas(0, arr, size, 0, 0, 0);
+    tocas(0, arr, size, 0, 0, 0, 0);
 
     return 0;
 
 }
 
-void tocas(int count, int *arr, int size,
+void tocas(int count, int *arr, int size, int index,
 	   int fixed, int var, int num_tocas)
 {
     if(count > size){
@@ -30,21 +30,26 @@ void tocas(int count, int *arr, int size,
     }
 
     if(count == 0) {
-	fixed = arr[count];
-	var = arr[count];
+	fixed = arr[0];
+	var = arr[0];
     }
 
     var = arr[var];
+    
+    if(var > size){
+	var = arr[index];
+    }
 
     if(var == fixed){
 
 	num_tocas++;
+	index++;
 
-	fixed = arr[(count+1)];
-	var = arr[(count+1)];
+	fixed = arr[index];
+	var = arr[index];
     }
 
-    tocas(count+1, arr, size, fixed, var, num_tocas);
+    tocas(count+1, arr, size, index, fixed, var, num_tocas);
 
 }
 

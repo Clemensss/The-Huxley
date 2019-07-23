@@ -2,8 +2,10 @@
 
 void make_arr(int count, int max, int *arr);
 
-void tocas(int count, int *arr, int size, int index,
-	   int var1, int var, int num_tocas);
+void tocas(int *arr, int count, int max,
+	   int liga, int index, int num_tocas);
+
+int search(int *arr, int count, int max);
 
 int main()
 {
@@ -15,44 +17,54 @@ int main()
     
     make_arr(0, size, arr);
 
-    tocas(0, arr, size, 0, 0, 0, 0);
+    tocas(arr, 0, size, 0, 0, 0);
 
     return 0;
 
 }
 
-void tocas(int count, int *arr, int size, int index,
-	   int fixed, int var, int num_tocas)
+void tocas(int *arr, int count, int max,
+	   int liga, int index, int num_tocas)
 {
-    if(count > size){
-	printf("%d\n", num_tocas);
-	return;
-    }
 
-    if(count == 0) {
-	fixed = arr[0];
-	var = arr[0];
-    }
+    liga = arr[index];
 
-    var = arr[var];
+    //printf("map %d: %d %d\n", count, index, liga);
+    if(liga == -1){
     
-    if(var > size){
-	var = arr[index];
-    }
-
-    if(var == fixed){
-
 	num_tocas++;
-	index++;
+	
+	int temp = search(arr, 0, max);
 
-	fixed = arr[index];
-	var = arr[index];
+	if(temp == -1){
+        printf("%d\n", num_tocas);
+	    return;
+	}else{
+
+	    index = temp;
+	}
+
+    }else{
+
+	arr[index] = -1;
+	index = liga;
+    }
+    
+    tocas(arr, count+1, max, liga, index, num_tocas);
+    
+}
+	    
+int search(int *arr, int count, int max)
+{
+    if(count > max){
+	return -1;	
     }
 
-    tocas(count+1, arr, size, index, fixed, var, num_tocas);
-
+    if(arr[count] != -1){
+	return count;
+    }
+    search(arr, count+1, max);
 }
-
 void make_arr(int count, int max, int *arr)
 {
     if(count > max) return;

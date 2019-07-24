@@ -39,8 +39,8 @@ vb visited;
 vi dist;
 vvi adjList;
 
-//inicia a lista de visitados, ou seja apaga
-//e realoca o tamanho desejado
+/*inicia a lista de visitados, ou seja apaga
+e realoca o tamanho desejado*/
 void initVisited(int size)
 {
 	visited.clear();

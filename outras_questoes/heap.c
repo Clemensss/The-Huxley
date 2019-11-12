@@ -89,6 +89,7 @@ void max_heapify(heap *heap)
     for(i=1; i<=len; i++)
 	  heapify(heap, i);
 }
+
 void heapify(heap *heap, int parent)
 {
     int len = heap->size; 
